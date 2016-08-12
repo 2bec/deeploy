@@ -5,6 +5,7 @@
 ## Carlos Berton [ berton.5b@gmail.com ]
 
 from fabric.api import *
+from fabric.contrib.files import exists
 
 # globals
 env.project_name = ''
@@ -15,7 +16,7 @@ def devel():
     Use the development virtual server
     """
     env.hosts = ['']
-    env.port =  # port to connect
+    #env.port = '' # port to connect
     env.user = '' # create a diferente user like deploy
     env.branch = '' # branch to work
     env.path = '' # complete path to project 
@@ -26,7 +27,7 @@ def stage():
     Use the stage server
     """
     env.hosts = ['']
-    env.port =  # port to connect
+    env.port = '' # port to connect
     env.user = '' # create a diferente user like deploy
     env.branch = '' # branch to work
     env.path = '' # complete path to project 
@@ -37,7 +38,7 @@ def production():
     Use the production server
     """
     env.hosts = ['']
-    env.port =  # port to connect
+    env.port = '' # port to connect
     env.user = '' # create a diferente user like deploy
     env.branch = '' # branch to work
     env.path = '' # complete path to project
@@ -48,15 +49,30 @@ def setup():
     """
     Setup a virtualenv, create work three directories and run a full deploy
     """
-    run('mkdir -p %(path)s;' % env)
+    if not exists(env.path):
+        run('mkdir -p %(path)s;' % env)
     with cd(env.virtualhost_path):
         # create a virtualenv for project
         run('virtualenv %(project_name)s;' % env)
     with cd(env.path):
         # create work's directories, see documentation for more details
-        run('mkdir logs; chmod a+w logs; mkdir releases; mkdir packages; mkdir backups; mkdir configs; mkdir statics' % env, pty=True)
+        if not exists('logs'):
+            run('mkdir logs;chmod a+w logs;')
+        if not exists('releases'):
+            run('mkdir releases;')
+        if not exists('packages'):
+            run('mkdir packages;')
+        if not exists('backups'):
+            run('mkdir backups;')
+        if not exists('configs'):
+            run('mkdir configs;')
+        if not exists('statics'):
+            run('mkdir statics')
         # make easy your life, add symbolic links
-        run('cd releases; ln -s . current; ln -s . previous;', pty=True)
+        if not exists('releases/current'):
+            run('cd releases; ln -s . current;')
+        if not exists('releases/previous'):
+            run('ln -s . previous;')
     # launch your code
     deploy()
 
@@ -138,7 +154,7 @@ def restart_supervisor():
     """
     run('supervisorctl restart %(project_name)s' % env, pty=True)
 
- def restart_nginx():
+def restart_nginx():
     """
     Restart the nginx
     """
