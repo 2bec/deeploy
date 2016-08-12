@@ -7,7 +7,8 @@ So this file contains: tasks, helpers, environments
 You just set the environments configs and go.
 
 ## Usage
-'''
-$fab production deploy
-'''
+Just inform environment and task:
+```
+python deeploy.py production deploy
+```
 
