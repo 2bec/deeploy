@@ -1,0 +1,20 @@
+### Default server configuration
+server {
+	listen 80;
+	listen [::]:80;
+
+	access_log  /var/log/nginx/brik.2bec.dev.access.log;
+	error_log   /var/log/nginx/brik.2bec.dev.error.log;
+
+	root /home/2bec/Projetos/git/react-brik;
+
+	index index.html index.htm;
+
+	server_name brik.2bec.dev;
+
+	location / {
+		# First attempt to serve request as file, then
+		# as directory, then fall back to displaying a 404.
+		try_files $uri $uri/ =404;
+	}
+}
