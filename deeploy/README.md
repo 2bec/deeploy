@@ -16,7 +16,7 @@ $ sudo service nginx stop && service nginx start
 ```
 
 ### Intalar docker e configurar
-(https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-docker-ce-1)[https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-docker-ce-1]
+[https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-docker-ce-1](https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-docker-ce-1)
 
 #### Script
 ```
